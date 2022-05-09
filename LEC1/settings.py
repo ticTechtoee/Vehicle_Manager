@@ -10,7 +10,10 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
+from distutils.log import debug
 from pathlib import Path
+import os
+import mimetypes
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -38,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'home.apps.HomeConfig',
+    'add_vehicle.apps.AddVehicleConfig',
 ]
 
 MIDDLEWARE = [
@@ -55,7 +59,9 @@ ROOT_URLCONF = 'LEC1.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            os.path.join(BASE_DIR, 'templates'),
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -124,3 +130,18 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+mimetypes.add_type("text/css", ".css", True)
+
+
+STATIC_URL = '/static/'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static/assets/images')
+MEDIA_URL = '/media/'
+if DEBUG:
+    STATICFILES_DIRS = [
+    BASE_DIR / 'static'
+    ]
+else:
+    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
